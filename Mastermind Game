@@ -9,7 +9,7 @@
 
 <script type="text/javascript">
 attempts=0;
-//randomize the game//
+//randomize the game
 Array.prototype.swap = function(a, b)
 {
 	var tmp = this[a];
