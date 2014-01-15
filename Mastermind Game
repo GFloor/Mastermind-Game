@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="Mastermind" content="My crappy Mastermind game"/>
+<meta name="keywords" content="Mastermind, Javascript, CFT2111"/>
+<meta name="author" content="Tom Glasby"/>
+<meta name="copyright" content="&copy;2008 Tom Glasby"/>
+
+<script type="text/javascript">
+attempts=0;
+//randomize the game//
+Array.prototype.swap = function(a, b)
+{
+	var tmp = this[a];
+	this[a] = this[b];
+	this[b] = tmp;
+}
+
+var code  = new Array();
+
+var choice = new Array ("brown", "blue", "green", "pink", "red", "yellow");
+
+var noOfPegs = 4;
+
+function newGame()
+{
+	code  = new Array();
+	
+	var choiceMax  = choice.length;
+	var rnd = new Array();
+	
+	for (var i = 0; i < choiceMax; i++)
+		rnd[i] = i;
+		
+	for (var i = 0; i < 10; i++)
+		rnd.swap(Math.floor(Math.random() * choiceMax), Math.floor(Math.random() * choiceMax));
+		
+	for (var i = 0; i < noOfPegs; i++)
+	{
+		code[i] = choice[rnd[i]];
+		document.getElementById("choice" + i).selectedIndex = 0;
+	}
+	
+	var obj = document.getElementById("guessRecordContainer");
+	if (obj)
+		obj.innerHTML = "";
+	
+	alert("Too bad! The correct answer is "+code[0]+","+code[1]+","+code[2]+","+code[3]);
+	alert("Adios!");
+}
+
+
+function attempt() 
+{
+	if(attempts<=10)
+	{
+		attempts++;
+	var white = 0;
+	var red = 0;
+
+	var guessHTML = "";
+	
+	for (var i = 0; i < noOfPegs; i++)
+	{
+		var thisGuess = choice[document.getElementById("choice" + i).selectedIndex];
+		guessHTML += "<img src='images/" + thisGuess + ".gif' alt='"+thisGuess+"' />&nbsp;";
+
+		if (thisGuess == code[i])
+			red++;
+
+		for (var j = 0; j < noOfPegs; j++)
+			if (thisGuess == code[j] && j != i)
+				white++;
+	}
+	guessHTML += white + " pegs are the correct colour but in the wrong place. " + red + " pegs are the correct colour and in the correct place.<br/>";
+	
+	
+
+	
+	
+	document.getElementById("result").innerHTML += guessHTML;
+}
+else
+{
+	alert("no more games");
+}
+}
+
+
+function illegal()
+{
+	if (choice0 == choice1)
+		alert ("You cannot have two of the same colours in your choices")
+}
+
+newGame();
+
+</script>
+
+<style type="text/css">
+table.table1 {margin-left:100px; border: medium single; font-family: arial; text-align: center;}
+caption.caption1 {font-family: arial; text-align: center;}
+
+</style>
+
+</head>
+<body style="color: white; font-family: arial;background:black">
+
+<table class="table1" summary="Mastermind Board" border="12">
+
+<caption><strong><h3>Mastermind</em><h3></strong></caption> 
+
+
+
+<tr>
+	<td id="guess0">1</td>
+	<td id="guess1">2</td>
+	<td id="guess2">3</td>
+	<td id="guess3">4</td>
+</tr>
+
+<tr>
+	<td>5</td>
+	<td>6</td>
+	<td>7</td>
+	<td>8</td>
+</tr>
+
+<tr>
+	<td>9</td>
+	<td>10</td>
+	<td>11</td>
+	<td>12</td>
+</tr>
+
+<tr>
+	<td>
+		<select id="choice0">
+			<option value="0">brown</option>
+			<option value="1">blue</option>
+			<option value="2">green</option>
+			<option value="3">pink</option>
+			<option value="4">red</option>
+			<option value="5">yellow</option>
+		</select>
+	</td>
+	<td>
+		<select id="choice1">
+			<option value="0">brown</option>
+			<option value="1">blue</option>
+			<option value="2">green</option>
+			<option value="3">pink</option>
+			<option value="4">red</option>
+			<option value="5">yellow</option>
+		</select>
+	</td>
+	<td>
+		<select id="choice2">
+			<option value="0">brown</option>
+			<option value="1">blue</option>
+			<option value="2">green</option>
+			<option value="3">pink</option>
+			<option value="4">red</option>
+			<option value="5">yellow</option>
+		</select>
+	</td>
+	<td>
+		<select id="choice3">
+			<option value="0">brown</option>
+			<option value="1">blue</option>
+			<option value="2">green</option>
+			<option value="3">pink</option>
+			<option value="4">red</option>
+			<option value="5">yellow</option>
+		</select>
+	</td>
+
+	</tr>
+</tr>
+	<td colspan=2>
+		
+		<input type="submit" value="Wanna Submit?" onclick="attempt();"/>
+	</td>
+	
+	<td colspan=2>
+		<input type="reset" value="Had Enough?" onclick="newGame();"/>
+	</td>
+</table>
+
+<br />
+<h2>Good Luck!</h2>
+
+<div id="result"></div>
+
+</body>
+</html>
